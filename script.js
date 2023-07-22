@@ -1,8 +1,4 @@
-/*  
-    0 : Rock
-    1 : Paper
-    2 : Scissors
-*/
+
 
 
 function getComputerChoice() {
@@ -26,13 +22,13 @@ function round(playerSelection, computerSelection) {
     if (playerSelection == "rock" && computerSelection == "scissors" 
         || playerSelection == "paper" && computerSelection == "rock"
         || playerSelection == "scissors" && computerSelection == "paper") {
-            return 2;
+            return 2; /* Player wins */
         }
     else if (playerSelection == computerSelection) {
-        return 1;
+        return 1; /* Tie Game */
     }
     else {
-        return 0;
+        return 0; /* Player looses */
     }
 }
 
