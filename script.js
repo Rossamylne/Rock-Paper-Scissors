@@ -18,13 +18,17 @@ function getComputerChoice() {
     return choiceConversion;
 }
 
-function round(playerSelection, computerSelection) {
-    if (playerSelection == "rock" && computerSelection == "scissors" 
-        || playerSelection == "paper" && computerSelection == "rock"
-        || playerSelection == "scissors" && computerSelection == "paper") {
+
+
+
+function playRound(player, computer) {
+    console.log(`selections are : player ${player} and computer ${computer}`)
+    if (player == "rock" && computer == "scissors" 
+        || player == "paper" && computer == "rock"
+        || player == "scissors" && computer == "paper") {
             return 2; /* Player wins */
         }
-    else if (playerSelection == computerSelection) {
+    else if (player == computer) {
         return 1; /* Tie Game */
     }
     else {
@@ -32,31 +36,47 @@ function round(playerSelection, computerSelection) {
     }
 }
 
+const resultsContainer = document.querySelector(".results-container");
+const roundResults = document.querySelector(".round-result");
+const finalScoreResults = document.querySelector(".final-results");
 
-function game() {
-    let playerScore, computerScore = 0;
-    for (let i = 0; i < 5; i++) {
-        let inputedChoice = prompt("rock, paper or scissors ?");
-        const playerChoice = inputedChoice.toLowerCase();
-        const computerChoice = getComputerChoice();
-        console.log(`Player choice is ${playerChoice} and computer choice is ${computerChoice}`);
-        switch(round(playerChoice, computerChoice)) {
-        case 2:
-            console.log(`You win, ${playerChoice} beats ${computerChoice}`);
-            playerScore ++;
-            break;
-        case 1:
-            console.log("Equality !");
-            break;
-        case 0:
-            console.log(`You lose, ${computerChoice} beats ${playerChoice}`);
-            computerScore ++;
-            break;
+
+const buttonContainer = document.querySelector(".button-container");
+const buttons = buttonContainer.querySelectorAll('button');
+let playerSelection ="";
+let playerScore = 0;
+let computerScore = 0;
+let incrementer = 0;
+buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+        let playerSelection = button.id;
+        
+        if (incrementer < 5) {
+            switch(playRound(playerSelection,getComputerChoice())) {
+                case 2:
+                    console.log("Win")
+                    playerScore ++;
+                    roundResults.textContent = `You won`;
+                    break;
+                case 1:
+                    console.log('Tie game');
+                    roundResults.textContent = `Tie game`;
+                    break;
+                case 0:
+                    console.log("Defeat")
+                    roundResults.textContent = `You lose`;
+                    computerScore ++;
+                    break;
+            }
+            console.log(`player = ${playerScore} || computer = ${computerScore}`);
+        } else {
+            (playerScore > computerScore) ?
+                finalScoreResults.textContent = `You won, you have ${playerScore} and computer get ${computerScore}`:
+            (playerScore == computerScore) ?
+                finalScoreResults.textContent = `Tie Game, you have ${playerScore} and computer get ${computerScore}`:
+
+            finalScoreResults.textContent = `You lose, you have ${playerScore} and computer get ${computerScore}`;
         }
-    (playerScore > computerScore) ? console.log(`You win, you have ${playerScore} points and computer has ${computerScore} points`) :
-    (playerScore == computerScore) ? console.log(`Equality !`):
-    console.log(`You lose, you have ${playerScore} points and computer has ${computerScore} points`)
-    } 
-}
-
-game();
+    incrementer ++;
+    }
+)});
